@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>YouTube DJ - TV</title>
+        <link rel="stylesheet" href="css/tv.css?v=3.8599" />
+    </head>
+    <body>
+        <div class="waiting-message" id="waitingMessage">
+            <h1>TV</h1>
+            <p>En attente de connexion...</p>
+            <p class="hint">F11 = Plein écran</p>
+        </div>
+
+        <div class="sync-overlay" id="syncOverlay">
+            <button class="sync-button" id="syncButton">
+                <span class="sync-icon">🔗</span>
+                <span class="sync-text">SYNCHRONISER</span>
+            </button>
+            <p class="sync-hint">
+                Cliquez pour activer le contrôle depuis la console DJ
+            </p>
+        </div>
+
+        <div class="player-container" id="playerContainerA">
+            <div id="playerA"></div>
+        </div>
+        <div class="player-container" id="playerContainerB">
+            <div id="playerB"></div>
+        </div>
+
+        <div class="status" id="status">Connexion...</div>
+
+        <div class="debug-panel" id="debugPanel">
+            <div class="debug-header">
+                <span>DEBUG KARAOKE</span>
+                <span id="debugCount">0</span>
+            </div>
+            <div class="debug-logs" id="debugLogs"></div>
+        </div>
+
+        <script src="https://www.youtube.com/iframe_api"></script>
+        <script src="js/tv-page.js?v=3.8599"></script>
+    </body>
+</html>

@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>RedDeck - DJ Mixer</title>
+        <link rel="stylesheet" href="css/style.css?v=3.8607" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body>
+        <div class="mixer-container">
+            <!-- Header -->
+            <header class="header">
+                <div class="logo">
+                    <span class="logo-icon">💿</span>
+                    <span class="logo-text"
+                        ><span class="highlight">Red</span>Deck</span
+                    >
+                    <span class="version">v3.8607</span>
+                </div>
+                <div class="header-controls">
+                    <div class="auto-mix-toggle">
+                        <input type="checkbox" id="autoMix" checked />
+                        <label for="autoMix">AUTO-MIX</label>
+                    </div>
+                    <div class="crossfade-duration">
+                        <label>Crossfade:</label>
+                        <select id="crossfadeDuration">
+                            <option value="3">3s</option>
+                            <option value="5" selected>5s</option>
+                            <option value="10">10s</option>
+                            <option value="15">15s</option>
+                        </select>
+                    </div>
+                    <button
+                        class="header-btn btn-karaoke"
+                        id="btnKaraoke"
+                        title="Ouvrir fenêtre TV"
+                    >
+                        TV
+                    </button>
+
+                    <a
+                        class="header-btn btn-coffee"
+                        href="#"
+                        target="_blank"
+                        title="Offrir un café"
+                    >
+                        ☕
+                    </a>
+                    <button
+                        class="header-btn btn-config"
+                        id="btnConfig"
+                        title="Configuration"
+                    >
+                        ⚙
+                    </button>
+                </div>
+            </header>
+
+            <!-- Modal Bienvenue (première visite) -->
+            <div class="modal-overlay" id="welcomeModal">
+                <div class="modal-content welcome-modal">
+                    <div class="modal-header">
+                        <h2>👋 Bienvenue sur RedDeck !</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p class="welcome-text">
+                            J'ai développé cette application en
+                            <strong>HTML, CSS et JavaScript</strong> très
+                            basique, sans framework particulier, assisté
+                            entièrement par <strong>IA Claude</strong>.
+                        </p>
+                        <p class="welcome-text">
+                            RedDeck est et restera
+                            <strong>100% gratuit</strong>. Le code source est
+                            disponible sur GitHub.
+                        </p>
+                        <p class="welcome-text">
+                            N'hésitez pas à me faire parvenir vos
+                            <strong>bugs</strong> ou
+                            <strong>suggestions</strong> sur GitHub et à
+                            <strong>partager avec vos amis</strong> !
+                        </p>
+                        <div class="welcome-links">
+                            <a
+                                href="https://github.com/chmusic974/reddeck"
+                                target="_blank"
+                                class="btn-github"
+                            >
+                                ⭐ GitHub
+                            </a>
+                        </div>
+                        <button
+                            class="btn-welcome-close"
+                            id="closeWelcomeModal"
+                        >
+                            C'est parti !
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Configuration -->
+            <div class="modal-overlay" id="configModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Configuration</h2>
+                        <button class="modal-close" id="closeConfigModal">
+                            &times;
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="config-section">
+                            <h3>
+                                Clés API YouTube
+                                <span
+                                    id="apiKeyStatus"
+                                    class="api-key-status"
+                                ></span>
+                            </h3>
+                            <p class="config-hint">
+                                Ajoutez plusieurs clés pour rotation automatique
+                                si quota atteint.
+                            </p>
+                            <div class="api-key-help">
+                                <details>
+                                    <summary>
+                                        📖 Comment obtenir une clé API YouTube ?
+                                    </summary>
+                                    <ol>
+                                        <li>
+                                            Allez sur
+                                            <a
+                                                href="https://console.cloud.google.com/"
+                                                target="_blank"
+                                                >Google Cloud Console</a
+                                            >
+                                        </li>
+                                        <li>
+                                            Créez un nouveau projet (ou
+                                            sélectionnez-en un existant)
+                                        </li>
+                                        <li>
+                                            Allez dans "APIs & Services" →
+                                            "Library"
+                                        </li>
+                                        <li>
+                                            Recherchez "YouTube Data API v3" et
+                                            activez-la
+                                        </li>
+                                        <li>
+                                            Allez dans "APIs & Services" →
+                                            "Credentials"
+                                        </li>
+                                        <li>
+                                            Cliquez sur "Create Credentials" →
+                                            "API Key"
+                                        </li>
+                                        <li>
+                                            Copiez la clé générée et collez-la
+                                            ci-dessous
+                                        </li>
+                                    </ol>
+                                    <p class="api-key-note">
+                                        💡 Le quota gratuit est de 10 000
+                                        requêtes/jour. Ajoutez plusieurs clés
+                                        pour augmenter cette limite.
+                                    </p>
+                                </details>
+                            </div>
+                            <div id="apiKeysList" class="api-keys-list"></div>
+                            <div class="api-key-add">
+                                <input
+                                    type="text"
+                                    id="apiKeyInput"
+                                    placeholder="Nouvelle clé API YouTube"
+                                />
+                                <button class="btn-add-api" id="addApiKey">
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                        <div class="config-section">
+                            <h3>Réinitialisation</h3>
+                            <p class="config-hint">
+                                Supprimer toutes les données sauvegardées
+                                (playlist, clé API)
+                            </p>
+                            <button class="btn-reset" id="resetStorage">
+                                Réinitialiser le stockage
+                            </button>
+                        </div>
+                        <div class="config-section">
+                            <h3>Mode Debug Karaoke</h3>
+                            <p class="config-hint">
+                                Afficher les logs de communication sur la
+                                fenêtre TV
+                            </p>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="debugKaraoke" />
+                                <span>Activer le debug</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Mixer Area -->
+            <main class="mixer-main">
+                <!-- Deck A -->
+                <div class="deck deck-a" id="deckA">
+                    <div class="deck-header">
+                        <span class="deck-label">DECK A</span>
+                        <span class="deck-status" id="statusA">STOPPED</span>
+                    </div>
+                    <div class="track-info" id="trackInfoA">
+                        <img
+                            class="track-thumbnail"
+                            id="trackThumbnailA"
+                            src=""
+                            alt=""
+                        />
+                        <div class="track-text">
+                            <div class="track-title">Aucune piste chargée</div>
+                            <div class="track-artist">--</div>
+                        </div>
+                    </div>
+                    <div class="video-container">
+                        <div id="playerA" class="video-player"></div>
+                        <div class="video-overlay" id="overlayA">
+                            <img
+                                class="video-thumbnail-preview"
+                                id="videoThumbnailA"
+                                src=""
+                                alt=""
+                            />
+                            <div class="vinyl-record" id="vinylA">
+                                <div class="vinyl-label">A</div>
+                            </div>
+                        </div>
+                        <div class="drop-shield" id="dropShieldA"></div>
+                    </div>
+                    <div class="waveform-row">
+                        <button class="btn-mini btn-cue" id="cueA">CUE</button>
+                        <button class="btn-mini btn-play" id="playA">▶</button>
+                        <div class="waveform" id="waveformA">
+                            <div
+                                class="waveform-progress"
+                                id="waveformProgressA"
+                            ></div>
+                            <div class="waveform-bars"></div>
+                            <div
+                                class="waveform-cursor"
+                                id="waveformCursorA"
+                            ></div>
+                        </div>
+                        <span class="time-compact" id="timeCurrentA">0:00</span>
+                        <span class="time-compact remaining" id="timeRemainingA"
+                            >-0:00</span
+                        >
+                    </div>
+                </div>
+
+                <!-- Center - Mixer avec volumes sur les bords et crossfader horizontal -->
+                <div class="center-controls">
+                    <div class="mixer-section">
+                        <!-- Volume A (gauche) -->
+                        <div class="channel-strip channel-a">
+                            <div class="channel-label">A</div>
+                            <div class="vu-meter-vertical" id="vuMeterVertA">
+                                <div class="vu-segment green"></div>
+                                <div class="vu-segment green"></div>
+                                <div class="vu-segment green"></div>
+                                <div class="vu-segment green"></div>
+                                <div class="vu-segment green"></div>
+                                <div class="vu-segment green"></div>
+                                <div class="vu-segment green"></div>
+                                <div class="vu-segment green"></div>
+                                <div class="vu-segment yellow"></div>
+                                <div class="vu-segment yellow"></div>
+                                <div class="vu-segment orange"></div>
+                                <div class="vu-segment red"></div>
+                            </div>
+                            <div
+                                class="custom-fader"
+                                id="faderA"
+                                data-value="100"
+                            >
+                                <div class="fader-track">
+                                    <div class="fader-fill"></div>
+                                    <div class="fader-knob"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="master-channel">
+                            <div class="channel-label master-label">MST</div>
+                            <div
+                                class="custom-fader master"
+                                id="masterVolume"
+                                data-value="80"
+                            >
+                                <div class="fader-track">
+                                    <div class="fader-fill"></div>
+                                    <div class="fader-knob"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Volume B (droite) -->
+                        <div class="channel-strip channel-b">
+                            <div class="channel-label">B</div>
+                            <div class="vu-meter-vertical" id="vuMeterVertB">
+                                <div class="vu-segment green"></div>
+                                <div class="vu-segment green"></div>
+                                <div class="vu-segment green"></div>
+                                <div class="vu-segment green"></div>
+                                <div class="vu-segment green"></div>
+                                <div class="vu-segment green"></div>
+                                <div class="vu-segment green"></div>
+                                <div class="vu-segment green"></div>
+                                <div class="vu-segment yellow"></div>
+                                <div class="vu-segment yellow"></div>
+                                <div class="vu-segment orange"></div>
+                                <div class="vu-segment red"></div>
+                            </div>
+                            <div
+                                class="custom-fader"
+                                id="faderB"
+                                data-value="100"
+                            >
+                                <div class="fader-track">
+                                    <div class="fader-fill"></div>
+                                    <div class="fader-knob"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Crossfader horizontal au centre -->
+                    <div class="crossfader-center-horizontal">
+                        <div class="cf-labels">
+                            <span class="cf-a">A</span>
+                            <span class="cf-b">B</span>
+                        </div>
+                        <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value="50"
+                            class="crossfader-h"
+                            id="crossfader"
+                        />
+                        <div class="sync-buttons">
+                            <button class="btn-transition" id="transitionBtn">
+                                MIX
+                            </button>
+                            <button
+                                class="btn-next"
+                                id="nextBtn"
+                                title="Passer à la piste suivante avec mix auto"
+                            >
+                                NEXT ⏭
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Deck B -->
+                <div class="deck deck-b" id="deckB">
+                    <div class="deck-header">
+                        <span class="deck-label">DECK B</span>
+                        <span class="deck-status" id="statusB">STOPPED</span>
+                    </div>
+                    <div class="track-info" id="trackInfoB">
+                        <img
+                            class="track-thumbnail"
+                            id="trackThumbnailB"
+                            src=""
+                            alt=""
+                        />
+                        <div class="track-text">
+                            <div class="track-title">Aucune piste chargée</div>
+                            <div class="track-artist">--</div>
+                        </div>
+                    </div>
+                    <div class="video-container">
+                        <div id="playerB" class="video-player"></div>
+                        <div class="video-overlay" id="overlayB">
+                            <img
+                                class="video-thumbnail-preview"
+                                id="videoThumbnailB"
+                                src=""
+                                alt=""
+                            />
+                            <div class="vinyl-record" id="vinylB">
+                                <div class="vinyl-label">B</div>
+                            </div>
+                        </div>
+                        <div class="drop-shield" id="dropShieldB"></div>
+                    </div>
+                    <div class="waveform-row">
+                        <button class="btn-mini btn-cue" id="cueB">CUE</button>
+                        <button class="btn-mini btn-play" id="playB">▶</button>
+                        <div class="waveform" id="waveformB">
+                            <div
+                                class="waveform-progress"
+                                id="waveformProgressB"
+                            ></div>
+                            <div class="waveform-bars"></div>
+                            <div
+                                class="waveform-cursor"
+                                id="waveformCursorB"
+                            ></div>
+                        </div>
+                        <span class="time-compact" id="timeCurrentB">0:00</span>
+                        <span class="time-compact remaining" id="timeRemainingB"
+                            >-0:00</span
+                        >
+                    </div>
+                </div>
+            </main>
+
+            <!-- Resize Handle -->
+            <div class="resize-handle" id="resizeHandle"></div>
+
+            <!-- Bottom Section - Search & Playlist -->
+            <section class="bottom-section" id="bottomSection">
+                <div class="search-panel">
+                    <div class="search-bar">
+                        <span class="search-icon">🔍</span>
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Rechercher une musique sur YouTube..."
+                        />
+                        <button id="searchBtn">RECHERCHER</button>
+                    </div>
+                    <div class="search-results" id="searchResults">
+                        <div class="search-placeholder">
+                            Glissez les résultats sur les decks A ou B
+                        </div>
+                    </div>
+                </div>
+                <div class="resize-handle-h" id="resizeHandleH"></div>
+                <div class="playlist-panel">
+                    <div class="playlist-header">
+                        <h3>📋 PLAYLIST</h3>
+                        <div class="playlist-actions">
+                            <div
+                                class="dj-mode-toggle"
+                                title="DJ Auto - Ajoute des suggestions automatiquement"
+                            >
+                                <label class="switch">
+                                    <input type="checkbox" id="djModeToggle" />
+                                    <span class="slider"></span>
+                                </label>
+                                <span class="toggle-label">🤖 Auto</span>
+                            </div>
+                            <span class="playlist-count" id="playlistCount"
+                                >0</span
+                            >
+                            <button id="clearPlaylist">Vider</button>
+                        </div>
+                    </div>
+                    <div class="playlist-container" id="playlistContainer">
+                        <div class="playlist-empty">Playlist vide</div>
+                    </div>
+                </div>
+
+                <!-- Panneau Suggestions -->
+                <div class="suggestions-panel" id="suggestionsPanel">
+                    <div class="suggestions-header">
+                        <h3>✨ SUGGESTIONS</h3>
+                        <button
+                            class="btn-refresh-suggestions"
+                            id="refreshSuggestions"
+                            title="Rafraîchir les suggestions"
+                        >
+                            🔄
+                        </button>
+                        <button
+                            class="btn-close-suggestions"
+                            id="closeSuggestions"
+                        >
+                            &times;
+                        </button>
+                    </div>
+                    <div class="suggestions-source" id="suggestionsSource">
+                        Basées sur: <span id="suggestionSourceTitle">-</span>
+                    </div>
+                    <div
+                        class="suggestions-container"
+                        id="suggestionsContainer"
+                    >
+                        <div class="suggestions-empty">
+                            <p>Cliquez sur 🔄 pour obtenir des suggestions</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <script src="https://www.youtube.com/iframe_api"></script>
+        <!-- Modules JS -->
+        <script src="js/state.js?v=3.8607"></script>
+        <script src="js/storage.js?v=3.8607"></script>
+        <script src="js/tv.js?v=3.8607"></script>
+        <script src="js/lastfm.js?v=3.8607"></script>
+        <script src="js/youtube.js?v=3.8607"></script>
+        <script src="js/player.js?v=3.8607"></script>
+        <script src="js/playlist.js?v=3.8607"></script>
+        <script src="js/mixer.js?v=3.8607"></script>
+        <script src="js/suggestions.js?v=3.8607"></script>
+        <script src="js/ui.js?v=3.8607"></script>
+        <script src="js/vu-meter.js?v=3.8607"></script>
+        <script src="js/faders.js?v=3.8607"></script>
+        <script src="js/app.js?v=3.8607"></script>
+    </body>
+</html>

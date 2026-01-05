@@ -1,0 +1,19 @@
+{
+  "name": "youtube-dj-mixer",
+  "version": "3.42.0",
+  "description": "YouTube DJ Mixer avec crossfade automatique",
+  "scripts": {
+    "build": "node build.js",
+    "deploy": "node build.js && node deploy.js"
+  },
+  "keywords": [
+    "youtube",
+    "dj",
+    "mixer"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "terser": "^5.44.1"
+  }
+}
