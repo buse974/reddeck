@@ -100,19 +100,42 @@ cd reddeck
 
 ### Configuration des clés API
 
-#### 1. Clé YouTube Data API
+#### Méthode 1 : Via fichier `.env` (Recommandé pour le développement)
 
+1. Copiez `.env.example` en `.env`
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Éditez le fichier `.env` et remplissez vos clés API :
+   ```
+   YOUTUBE_API_KEY=ta_cle_youtube_ici
+   LASTFM_API_KEY=ta_cle_lastfm_ici
+   ```
+
+3. Le fichier `.env` est ignoré par git (ne sera jamais commité)
+
+#### Méthode 2 : Via l'interface (Pour tous les environnements)
+
+1. Lancez l'application
+2. Cliquez sur ⚙️ Paramètres en haut à droite
+3. Entrez vos clés API dans les champs
+4. Les clés sont sauvegardées localement (localStorage)
+
+#### Obtenir vos clés API
+
+**YouTube Data API v3**
 1. Allez sur [Google Cloud Console](https://console.cloud.google.com/)
 2. Créez un nouveau projet
 3. Activez "YouTube Data API v3"
 4. Créez une clé API (Credentials > Create Credentials > API Key)
 5. Copiez votre clé
 
-#### 2. Clé Last.fm API
-
+**Last.fm API**
 1. Allez sur [Last.fm Developer](https://www.last.fm/api/)
 2. Créez une application
 3. Copiez votre clé API
+4. *Note: La clé est restreinte au domaine pour la sécurité*
 
 ### Lancer en développement
 

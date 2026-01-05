@@ -15,6 +15,8 @@ const CSS_DIR = "css";
 
 // Ordre des fichiers JS (important pour les dépendances)
 const JS_FILES = [
+  "env-loader.js",
+  "config.js",
   "state.js",
   "storage.js",
   "tv.js",
@@ -26,6 +28,7 @@ const JS_FILES = [
   "suggestions.js",
   "ui.js",
   "vu-meter.js",
+  "faders.js",
   "app.js",
 ];
 

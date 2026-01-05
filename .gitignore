@@ -6,3 +6,6 @@ deploy.js
 deploy-dev.js
 build/
 index.html
+.env
+.env.local
+.env.*.local
