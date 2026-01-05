@@ -5,7 +5,9 @@ CLAUDE.md
 deploy.js
 deploy-dev.js
 build/
-index.html
+landing/
+assets/
 .env
 .env.local
+.env.production
 .env.*.local

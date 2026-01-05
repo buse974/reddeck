@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * YouTube DJ Mixer - Build Script
+ * RedDeck - Build Script
  * Minifie les JS et prépare le dossier build pour la production
  */
 
@@ -9,9 +9,10 @@ const path = require("path");
 const { minify } = require("terser");
 
 const VERSION = "3.42";
+const APP_DIR = "app";
 const BUILD_DIR = "build";
-const JS_DIR = "js";
-const CSS_DIR = "css";
+const JS_DIR = path.join(APP_DIR, "js");
+const CSS_DIR = path.join(APP_DIR, "css");
 
 // Ordre des fichiers JS (important pour les dépendances)
 const JS_FILES = [
@@ -35,12 +36,12 @@ const JS_FILES = [
 const TV_JS_FILES = ["tv-page.js"];
 
 async function build() {
-  console.log("Build YouTube DJ Mixer v" + VERSION);
+  console.log("Build RedDeck v" + VERSION);
   console.log("================================\n");
 
   // Créer les dossiers
   if (fs.existsSync(BUILD_DIR)) {
-    fs.rmdirSync(BUILD_DIR, { recursive: true });
+    fs.rmSync(BUILD_DIR, { recursive: true });
   }
   fs.mkdirSync(BUILD_DIR);
   fs.mkdirSync(path.join(BUILD_DIR, "js"));
@@ -121,9 +122,9 @@ async function build() {
   }
   console.log("");
 
-  // Générer app.html pour le build
+  // Générer index.html pour le build (depuis app/index.html)
   console.log("Génération HTML...");
-  let appHtml = fs.readFileSync("app.html", "utf8");
+  let appHtml = fs.readFileSync(path.join(APP_DIR, "index.html"), "utf8");
 
   // Remplacer les scripts multiples par le bundle
   const scriptRegex =
@@ -139,11 +140,11 @@ async function build() {
     "css/style.min.css?v=" + VERSION,
   );
 
-  fs.writeFileSync(path.join(BUILD_DIR, "app.html"), appHtml);
-  console.log("  + app.html\n");
+  fs.writeFileSync(path.join(BUILD_DIR, "index.html"), appHtml);
+  console.log("  + index.html\n");
 
   // Générer tv.html pour le build
-  let tvHtml = fs.readFileSync("tv.html", "utf8");
+  let tvHtml = fs.readFileSync(path.join(APP_DIR, "tv.html"), "utf8");
   tvHtml = tvHtml.replace(
     /css\/tv\.css\?v=[\d.]+/,
     "css/tv.min.css?v=" + VERSION,
