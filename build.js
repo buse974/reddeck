@@ -121,26 +121,26 @@ async function build() {
   }
   console.log("");
 
-  // Générer index.html pour le build
+  // Générer app.html pour le build
   console.log("Génération HTML...");
-  let indexHtml = fs.readFileSync("index.html", "utf8");
+  let appHtml = fs.readFileSync("app.html", "utf8");
 
   // Remplacer les scripts multiples par le bundle
   const scriptRegex =
-    /<!-- Modules JS -->[\s\S]*?<script src="js\/app\.js\?v=[\d.]+"><\/script>/;
-  indexHtml = indexHtml.replace(
+    /<!-- Configuration & Env -->[\s\S]*?<script src="js\/app\.js\?v=[\d.]+"><\/script>/;
+  appHtml = appHtml.replace(
     scriptRegex,
     '<script src="js/app.min.js?v=' + VERSION + '"></script>',
   );
 
   // Mettre à jour le chemin CSS
-  indexHtml = indexHtml.replace(
+  appHtml = appHtml.replace(
     /css\/style\.css\?v=[\d.]+/,
     "css/style.min.css?v=" + VERSION,
   );
 
-  fs.writeFileSync(path.join(BUILD_DIR, "index.html"), indexHtml);
-  console.log("  + index.html\n");
+  fs.writeFileSync(path.join(BUILD_DIR, "app.html"), appHtml);
+  console.log("  + app.html\n");
 
   // Générer tv.html pour le build
   let tvHtml = fs.readFileSync("tv.html", "utf8");
