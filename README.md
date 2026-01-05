@@ -52,27 +52,35 @@ Un DJ mixer gratuit et open source directement dans votre navigateur. Mixez vos 
 
 ```
 RedDeck/
-├── index.html           # Page d'accueil & landing
-├── app.html             # Interface du mixer
-├── tv.html              # Mode TV dual screen
-├── css/
-│   ├── style.css        # Styles principaux
-│   └── tv.css           # Styles mode TV
-├── js/
-│   ├── app.js           # Point d'entrée principal
-│   ├── player.js        # Gestion du lecteur YouTube
-│   ├── mixer.js         # Logique du mixer (crossfader, tempo)
-│   ├── ui.js            # Mise à jour de l'interface
-│   ├── playlist.js      # Gestion de la playlist
-│   ├── storage.js       # Sauvegarde locale (localStorage)
-│   ├── state.js         # Gestion d'état centralisée
-│   ├── faders.js        # Contrôle des faders
-│   ├── vu-meter.js      # Affichage des VU-mètres
-│   ├── youtube.js       # Intégration YouTube API
-│   ├── lastfm.js        # Intégration Last.fm API
-│   └── suggestions.js   # Suggestions intelligentes
+├── src/                 # Code source
+│   ├── index.html       # Interface du mixer
+│   ├── tv.html          # Mode TV dual screen
+│   ├── css/
+│   │   ├── style.css    # Styles principaux
+│   │   └── tv.css       # Styles mode TV
+│   └── js/
+│       ├── app.js       # Point d'entrée principal
+│       ├── config.js    # Gestion des clés API
+│       ├── env-loader.js# Chargement .env
+│       ├── state.js     # Gestion d'état centralisée
+│       ├── storage.js   # Sauvegarde locale (localStorage)
+│       ├── player.js    # Gestion du lecteur YouTube
+│       ├── mixer.js     # Logique du mixer (crossfader, tempo)
+│       ├── playlist.js  # Gestion de la playlist
+│       ├── ui.js        # Mise à jour de l'interface
+│       ├── faders.js    # Contrôle des faders
+│       ├── vu-meter.js  # Affichage des VU-mètres
+│       ├── youtube.js   # Intégration YouTube API
+│       ├── lastfm.js    # Intégration Last.fm API
+│       ├── suggestions.js # Suggestions intelligentes
+│       ├── tv.js        # Communication mode TV
+│       └── tv-page.js   # Script page TV
+├── dist/                # Build minifié (généré)
+├── build.js             # Script de build
 ├── package.json         # Dépendances Node
-└── build.js             # Script de build (minification)
+├── .env.example         # Template configuration
+├── LICENSE              # Licence MIT
+└── README.md            # Documentation
 ```
 
 ---
