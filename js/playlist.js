@@ -434,7 +434,7 @@ async function addMixToPlaylist(genre) {
     const playlistIds = state.playlist.map((t) => t.id);
 
     // Récupérer les top tracks du genre via Last.fm
-    const url = `https://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag=${encodeURIComponent(genre)}&api_key=${LASTFM_API_KEY}&format=json&limit=30`;
+    const url = `https://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag=${encodeURIComponent(genre)}&api_key=${getLastFmKey()}&format=json&limit=30`;
     const response = await fetch(url);
     const data = await response.json();
 

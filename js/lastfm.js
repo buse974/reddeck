@@ -3,7 +3,8 @@
  * Handles Last.fm API calls and metadata extraction
  */
 
-const LASTFM_API_KEY = "YOUR_LASTFM_API_KEY";
+// Récupère la clé API depuis Config (localStorage ou .env)
+const getLastFmKey = () => Config.getLastFmApiKey() || "";
 
 /**
  * Extrait l'artiste et le titre depuis un titre YouTube (string)
@@ -61,7 +62,7 @@ function parseTrackTitle(youtubeTitle) {
  * Récupère des pistes similaires depuis Last.fm
  */
 function getSimilarTracks(artist, track, callback) {
-  const url = `https://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&api_key=${LASTFM_API_KEY}&format=json&limit=15`;
+  const url = `https://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&api_key=${getLastFmKey()}&format=json&limit=15`;
 
   fetch(url)
     .then((response) => response.json())
@@ -82,7 +83,7 @@ function getSimilarTracks(artist, track, callback) {
  * Récupère les top tracks d'un artiste
  */
 function getArtistTopTracks(artist, callback, limit = 10) {
-  const url = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=${encodeURIComponent(artist)}&api_key=${LASTFM_API_KEY}&format=json&limit=${limit}`;
+  const url = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=${encodeURIComponent(artist)}&api_key=${getLastFmKey()}&format=json&limit=${limit}`;
 
   fetch(url)
     .then((response) => response.json())
@@ -103,7 +104,7 @@ function getArtistTopTracks(artist, callback, limit = 10) {
  * Récupère des artistes similaires
  */
 function getSimilarArtists(artist, callback, limit = 5) {
-  const url = `https://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=${encodeURIComponent(artist)}&api_key=${LASTFM_API_KEY}&format=json&limit=${limit}`;
+  const url = `https://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=${encodeURIComponent(artist)}&api_key=${getLastFmKey()}&format=json&limit=${limit}`;
 
   fetch(url)
     .then((response) => response.json())
@@ -234,7 +235,7 @@ async function fetchLastFmSuggestions(artist, title) {
  */
 async function fetchArtistTopTracks(artist) {
   try {
-    const url = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=${encodeURIComponent(artist)}&api_key=${LASTFM_API_KEY}&format=json&limit=20`;
+    const url = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=${encodeURIComponent(artist)}&api_key=${getLastFmKey()}&format=json&limit=20`;
     const response = await fetch(url);
     const data = await response.json();
 
@@ -257,7 +258,7 @@ async function fetchArtistTopTracks(artist) {
 async function fetchSameGenreTracks(artist) {
   try {
     // D'abord récupérer les tags de l'artiste
-    const tagUrl = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${encodeURIComponent(artist)}&api_key=${LASTFM_API_KEY}&format=json`;
+    const tagUrl = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${encodeURIComponent(artist)}&api_key=${getLastFmKey()}&format=json`;
     const tagResponse = await fetch(tagUrl);
     const tagData = await tagResponse.json();
 
@@ -273,7 +274,7 @@ async function fetchSameGenreTracks(artist) {
     const mainTag = tagData.toptags.tag[0].name;
 
     // Récupérer les top tracks de ce tag
-    const trackUrl = `https://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag=${encodeURIComponent(mainTag)}&api_key=${LASTFM_API_KEY}&format=json&limit=30`;
+    const trackUrl = `https://ws.audioscrobbler.com/2.0/?method=tag.gettoptracks&tag=${encodeURIComponent(mainTag)}&api_key=${getLastFmKey()}&format=json&limit=30`;
     const trackResponse = await fetch(trackUrl);
     const trackData = await trackResponse.json();
 
@@ -319,7 +320,7 @@ async function* getNextSuggestion(artist, title, excludeTitles = []) {
   // 1. Tracks similaires (meilleure qualité)
   if (artist && title) {
     try {
-      const url = `https://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(title)}&api_key=${LASTFM_API_KEY}&format=json&limit=20`;
+      const url = `https://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(title)}&api_key=${getLastFmKey()}&format=json&limit=20`;
       const response = await fetch(url);
       const data = await response.json();
 
@@ -338,7 +339,7 @@ async function* getNextSuggestion(artist, title, excludeTitles = []) {
   // 2. Top tracks de l'artiste
   if (artist) {
     try {
-      const url = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=${encodeURIComponent(artist)}&api_key=${LASTFM_API_KEY}&format=json&limit=15`;
+      const url = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=${encodeURIComponent(artist)}&api_key=${getLastFmKey()}&format=json&limit=15`;
       const response = await fetch(url);
       const data = await response.json();
 
@@ -355,7 +356,7 @@ async function* getNextSuggestion(artist, title, excludeTitles = []) {
 
     // 3. Artistes similaires - top track de chacun
     try {
-      const url = `https://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=${encodeURIComponent(artist)}&api_key=${LASTFM_API_KEY}&format=json&limit=10`;
+      const url = `https://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=${encodeURIComponent(artist)}&api_key=${getLastFmKey()}&format=json&limit=10`;
       const response = await fetch(url);
       const data = await response.json();
 
@@ -363,7 +364,7 @@ async function* getNextSuggestion(artist, title, excludeTitles = []) {
         for (const simArtist of data.similarartists.artist) {
           // Récupérer juste le top 1 de chaque artiste similaire
           try {
-            const topUrl = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=${encodeURIComponent(simArtist.name)}&api_key=${LASTFM_API_KEY}&format=json&limit=3`;
+            const topUrl = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=${encodeURIComponent(simArtist.name)}&api_key=${getLastFmKey()}&format=json&limit=3`;
             const topResponse = await fetch(topUrl);
             const topData = await topResponse.json();
 
