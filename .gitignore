@@ -4,7 +4,7 @@ node_modules/
 CLAUDE.md
 deploy.js
 deploy-dev.js
-build/
+dist/
 landing/
 assets/
 .env

@@ -9,10 +9,10 @@ const path = require("path");
 const { minify } = require("terser");
 
 const VERSION = "3.42";
-const APP_DIR = "app";
-const BUILD_DIR = "build";
-const JS_DIR = path.join(APP_DIR, "js");
-const CSS_DIR = path.join(APP_DIR, "css");
+const SRC_DIR = "src";
+const DIST_DIR = "dist";
+const JS_DIR = path.join(SRC_DIR, "js");
+const CSS_DIR = path.join(SRC_DIR, "css");
 
 // Ordre des fichiers JS (important pour les dépendances)
 const JS_FILES = [
@@ -40,12 +40,12 @@ async function build() {
   console.log("================================\n");
 
   // Créer les dossiers
-  if (fs.existsSync(BUILD_DIR)) {
-    fs.rmSync(BUILD_DIR, { recursive: true });
+  if (fs.existsSync(DIST_DIR)) {
+    deleteFolderRecursive(DIST_DIR);
   }
-  fs.mkdirSync(BUILD_DIR);
-  fs.mkdirSync(path.join(BUILD_DIR, "js"));
-  fs.mkdirSync(path.join(BUILD_DIR, "css"));
+  fs.mkdirSync(DIST_DIR);
+  fs.mkdirSync(path.join(DIST_DIR, "js"));
+  fs.mkdirSync(path.join(DIST_DIR, "css"));
 
   // Minifier les JS principaux en un seul fichier
   console.log("Minification JS...");
@@ -63,7 +63,7 @@ async function build() {
     mangle: true,
     output: { comments: false },
   });
-  fs.writeFileSync(path.join(BUILD_DIR, "js", "app.min.js"), minifiedMain.code);
+  fs.writeFileSync(path.join(DIST_DIR, "js", "app.min.js"), minifiedMain.code);
   console.log(
     "  -> js/app.min.js (" +
       Math.round(minifiedMain.code.length / 1024) +
@@ -82,7 +82,7 @@ async function build() {
         output: { comments: false },
       });
       const outName = file.replace(".js", ".min.js");
-      fs.writeFileSync(path.join(BUILD_DIR, "js", outName), minified.code);
+      fs.writeFileSync(path.join(DIST_DIR, "js", outName), minified.code);
       console.log(
         "  + " +
           file +
@@ -109,7 +109,7 @@ async function build() {
       .replace(/;}/g, "}") // Remove last semicolon
       .trim();
     const outName = file.replace(".css", ".min.css");
-    fs.writeFileSync(path.join(BUILD_DIR, "css", outName), minified);
+    fs.writeFileSync(path.join(DIST_DIR, "css", outName), minified);
     console.log(
       "  + " +
         file +
@@ -124,7 +124,7 @@ async function build() {
 
   // Générer index.html pour le build (depuis app/index.html)
   console.log("Génération HTML...");
-  let appHtml = fs.readFileSync(path.join(APP_DIR, "index.html"), "utf8");
+  let appHtml = fs.readFileSync(path.join(SRC_DIR, "index.html"), "utf8");
 
   // Remplacer les scripts multiples par le bundle
   const scriptRegex =
@@ -140,11 +140,11 @@ async function build() {
     "css/style.min.css?v=" + VERSION,
   );
 
-  fs.writeFileSync(path.join(BUILD_DIR, "index.html"), appHtml);
+  fs.writeFileSync(path.join(DIST_DIR, "index.html"), appHtml);
   console.log("  + index.html\n");
 
   // Générer tv.html pour le build
-  let tvHtml = fs.readFileSync(path.join(APP_DIR, "tv.html"), "utf8");
+  let tvHtml = fs.readFileSync(path.join(SRC_DIR, "tv.html"), "utf8");
   tvHtml = tvHtml.replace(
     /css\/tv\.css\?v=[\d.]+/,
     "css/tv.min.css?v=" + VERSION,
@@ -153,13 +153,13 @@ async function build() {
     /js\/tv-page\.js\?v=[\d.]+/,
     "js/tv-page.min.js?v=" + VERSION,
   );
-  fs.writeFileSync(path.join(BUILD_DIR, "tv.html"), tvHtml);
+  fs.writeFileSync(path.join(DIST_DIR, "tv.html"), tvHtml);
   console.log("  + tv.html\n");
 
   // Stats finales
   console.log("Build terminé !");
   console.log("---------------");
-  const buildFiles = getAllFiles(BUILD_DIR);
+  const buildFiles = getAllFiles(DIST_DIR);
   let totalSize = 0;
   buildFiles.forEach((f) => {
     const size = fs.statSync(f).size;
@@ -167,6 +167,20 @@ async function build() {
   });
   console.log("Fichiers: " + buildFiles.length);
   console.log("Taille totale: " + Math.round(totalSize / 1024) + " KB\n");
+}
+
+function deleteFolderRecursive(dirPath) {
+  if (fs.existsSync(dirPath)) {
+    fs.readdirSync(dirPath).forEach((file) => {
+      const curPath = path.join(dirPath, file);
+      if (fs.lstatSync(curPath).isDirectory()) {
+        deleteFolderRecursive(curPath);
+      } else {
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(dirPath);
+  }
 }
 
 function getAllFiles(dir, files = []) {
