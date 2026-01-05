@@ -100,42 +100,41 @@ cd reddeck
 
 ### Configuration des clés API
 
-#### Méthode 1 : Via fichier `.env` (Recommandé pour le développement)
+#### Clé YouTube (via l'interface uniquement)
 
-1. Copiez `.env.example` en `.env`
-   ```bash
-   cp .env.example .env
-   ```
-
-2. Éditez le fichier `.env` et remplissez vos clés API :
-   ```
-   YOUTUBE_API_KEY=ta_cle_youtube_ici
-   LASTFM_API_KEY=ta_cle_lastfm_ici
-   ```
-
-3. Le fichier `.env` est ignoré par git (ne sera jamais commité)
-
-#### Méthode 2 : Via l'interface (Pour tous les environnements)
+La clé YouTube doit être configurée via l'interface pour des raisons de sécurité :
 
 1. Lancez l'application
-2. Cliquez sur ⚙️ Paramètres en haut à droite
-3. Entrez vos clés API dans les champs
-4. Les clés sont sauvegardées localement (localStorage)
+2. Cliquez sur ⚙️ Paramètres
+3. Entrez votre clé YouTube
+4. La clé est sauvegardée en localStorage (jamais exposée dans le code)
 
-#### Obtenir vos clés API
-
-**YouTube Data API v3**
+**Obtenir une clé YouTube :**
 1. Allez sur [Google Cloud Console](https://console.cloud.google.com/)
 2. Créez un nouveau projet
 3. Activez "YouTube Data API v3"
 4. Créez une clé API (Credentials > Create Credentials > API Key)
 5. Copiez votre clé
 
-**Last.fm API**
+#### Clé Last.fm (via fichier `.env`)
+
+La clé Last.fm peut être mise dans `.env` car elle est restreinte au domaine :
+
+1. Copiez `.env.example` en `.env`
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Éditez le fichier `.env` :
+   ```
+   LASTFM_API_KEY=ta_cle_lastfm_ici
+   ```
+
+**Obtenir une clé Last.fm :**
 1. Allez sur [Last.fm Developer](https://www.last.fm/api/)
 2. Créez une application
 3. Copiez votre clé API
-4. *Note: La clé est restreinte au domaine pour la sécurité*
+4. Restreignez-la à votre domaine pour plus de sécurité
 
 ### Lancer en développement
 
