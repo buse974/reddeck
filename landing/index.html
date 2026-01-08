@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- SEO Primary Meta Tags -->
+        <title>
+            RedDeck - DJ Mixer Gratuit en Ligne | Mixez YouTube comme un Pro
+        </title>
+        <meta
+            name="title"
+            content="RedDeck - DJ Mixer Gratuit en Ligne | Mixez YouTube comme un Pro"
+        />
+        <meta
+            name="description"
+            content="RedDeck est un DJ mixer gratuit et open source directement dans votre navigateur. Deux platines virtuelles, crossfader, auto-mix, suggestions intelligentes. Mixez vos vidéos YouTube comme un pro !"
+        />
+        <meta
+            name="keywords"
+            content="dj mixer, mixer en ligne, dj gratuit, mixer youtube, platine virtuelle, crossfader, auto mix, web dj, mixer musique gratuit, open source dj, dj software free, virtual dj online"
+        />
+        <meta name="author" content="RedDeck" />
+        <meta name="robots" content="index, follow" />
+        <meta name="language" content="French" />
+        <meta name="revisit-after" content="7 days" />
+
+        <!-- Canonical URL -->
+        <link rel="canonical" href="https://altstud.io/dj/" />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://altstud.io/dj/" />
+        <meta
+            property="og:title"
+            content="RedDeck - DJ Mixer Gratuit en Ligne | Mixez YouTube comme un Pro"
+        />
+        <meta
+            property="og:description"
+            content="DJ mixer gratuit et open source dans votre navigateur. Deux platines, crossfader, auto-mix et suggestions intelligentes. Mixez vos vidéos YouTube !"
+        />
+        <meta
+            property="og:image"
+            content="https://altstud.io/dj/og-image.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="fr_FR" />
+        <meta property="og:site_name" content="RedDeck" />
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://altstud.io/dj/" />
+        <meta
+            name="twitter:title"
+            content="RedDeck - DJ Mixer Gratuit en Ligne"
+        />
+        <meta
+            name="twitter:description"
+            content="DJ mixer gratuit et open source. Deux platines virtuelles, crossfader, auto-mix. Mixez YouTube comme un pro !"
+        />
+        <meta
+            name="twitter:image"
+            content="https://altstud.io/dj/og-image.png"
+        />
+
+        <!-- Favicon -->
+        <link
+            rel="icon"
+            type="image/svg+xml"
+            href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💿</text></svg>"
+        />
+        <link
+            rel="apple-touch-icon"
+            href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💿</text></svg>"
+        />
+
+        <!-- Theme Color -->
+        <meta name="theme-color" content="#ff4444" />
+        <meta name="msapplication-TileColor" content="#ff4444" />
+
+        <!-- Preconnect for performance -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- JSON-LD Structured Data -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                "name": "RedDeck",
+                "applicationCategory": "MultimediaApplication",
+                "operatingSystem": "Web Browser",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "EUR"
+                },
+                "description": "DJ mixer gratuit et open source pour mixer des vidéos YouTube directement dans votre navigateur. Deux platines virtuelles, crossfader automatique, suggestions intelligentes.",
+                "url": "https://altstud.io/dj/",
+                "image": "https://altstud.io/dj/og-image.png",
+                "author": {
+                    "@type": "Organization",
+                    "name": "RedDeck"
+                },
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "4.8",
+                    "ratingCount": "150"
+                },
+                "featureList": [
+                    "Double platines virtuelles",
+                    "Crossfader automatique",
+                    "Auto-mix intelligent",
+                    "Suggestions basées sur Last.fm",
+                    "Mode TV dual screen",
+                    "100% gratuit et open source"
+                ]
+            }
+        </script>
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            :root {
+                --red: #ff4444;
+                --red-dark: #cc2222;
+                --dark: #0a0a0a;
+                --dark-light: #141414;
+                --gray: #1a1a1a;
+                --gray-light: #2a2a2a;
+                --text: #ffffff;
+                --text-muted: #888888;
+            }
+
+            body {
+                font-family: "Inter", sans-serif;
+                background: var(--dark);
+                color: var(--text);
+                line-height: 1.6;
+                overflow-x: hidden;
+            }
+
+            /* Navigation */
+            header nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+                padding: 20px 50px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: rgba(10, 10, 10, 0.9);
+                backdrop-filter: blur(10px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .nav-logo {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                text-decoration: none;
+            }
+
+            .nav-logo .icon {
+                font-size: 1.8rem;
+                animation: spin 3s linear infinite;
+            }
+
+            @keyframes spin {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .nav-logo .text {
+                font-family: "Orbitron", sans-serif;
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--text);
+            }
+
+            .nav-logo .text span {
+                color: var(--red);
+            }
+
+            .nav-links {
+                display: flex;
+                gap: 30px;
+                align-items: center;
+            }
+
+            .nav-links a {
+                color: var(--text-muted);
+                text-decoration: none;
+                font-size: 0.95rem;
+                transition: color 0.2s;
+            }
+
+            .nav-links a:hover {
+                color: var(--text);
+            }
+
+            .btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 12px 28px;
+                border-radius: 8px;
+                font-weight: 600;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                cursor: pointer;
+                border: none;
+                font-size: 1rem;
+            }
+
+            .btn-primary {
+                background: linear-gradient(
+                    135deg,
+                    var(--red) 0%,
+                    var(--red-dark) 100%
+                );
+                color: white;
+                box-shadow: 0 4px 20px rgba(255, 68, 68, 0.4);
+            }
+
+            .btn-primary:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 30px rgba(255, 68, 68, 0.6);
+            }
+
+            .btn-secondary {
+                background: transparent;
+                color: var(--text);
+                border: 1px solid var(--gray-light);
+            }
+
+            .btn-secondary:hover {
+                background: var(--gray-light);
+                border-color: var(--gray-light);
+            }
+
+            /* Hero Section */
+            .hero {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: 120px 20px 80px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .hero::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 150%;
+                height: 100%;
+                background: radial-gradient(
+                    ellipse at center top,
+                    rgba(255, 68, 68, 0.15) 0%,
+                    transparent 60%
+                );
+                pointer-events: none;
+            }
+
+            .hero-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 20px;
+                background: rgba(255, 68, 68, 0.1);
+                border: 1px solid rgba(255, 68, 68, 0.3);
+                border-radius: 50px;
+                font-size: 0.9rem;
+                color: var(--red);
+                margin-bottom: 30px;
+            }
+
+            .hero h1 {
+                font-family: "Orbitron", sans-serif;
+                font-size: clamp(2.5rem, 8vw, 5rem);
+                font-weight: 900;
+                margin-bottom: 20px;
+                line-height: 1.1;
+            }
+
+            .hero h1 span {
+                background: linear-gradient(
+                    135deg,
+                    var(--red) 0%,
+                    #ff8888 100%
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .hero p {
+                font-size: 1.25rem;
+                color: var(--text-muted);
+                max-width: 600px;
+                margin-bottom: 40px;
+            }
+
+            .hero-buttons {
+                display: flex;
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero-image {
+                margin-top: 60px;
+                width: 100%;
+                max-width: 1100px;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow:
+                    0 30px 80px rgba(0, 0, 0, 0.5),
+                    0 0 0 1px rgba(255, 255, 255, 0.1);
+                position: relative;
+            }
+
+            .hero-image img {
+                width: 100%;
+                display: block;
+            }
+
+            .hero-image::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(
+                    180deg,
+                    transparent 60%,
+                    var(--dark) 100%
+                );
+                pointer-events: none;
+            }
+
+            /* Features Section */
+            .features {
+                padding: 100px 20px;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            .section-header {
+                text-align: center;
+                margin-bottom: 60px;
+            }
+
+            .section-header h2 {
+                font-family: "Orbitron", sans-serif;
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+            }
+
+            .section-header p {
+                color: var(--text-muted);
+                font-size: 1.1rem;
+            }
+
+            .features-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 25px;
+            }
+
+            .feature-card {
+                background: var(--gray);
+                border: 1px solid var(--gray-light);
+                border-radius: 16px;
+                padding: 35px;
+                transition: all 0.3s ease;
+            }
+
+            .feature-card:hover {
+                transform: translateY(-5px);
+                border-color: rgba(255, 68, 68, 0.3);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            }
+
+            .feature-icon {
+                font-size: 2.5rem;
+                margin-bottom: 20px;
+            }
+
+            .feature-card h3 {
+                font-size: 1.3rem;
+                margin-bottom: 12px;
+            }
+
+            .feature-card p {
+                color: var(--text-muted);
+                font-size: 0.95rem;
+            }
+
+            /* Tech Section */
+            .tech {
+                padding: 80px 20px;
+                background: var(--dark-light);
+            }
+
+            .tech-content {
+                max-width: 1000px;
+                margin: 0 auto;
+                text-align: center;
+            }
+
+            .tech-stack {
+                display: flex;
+                justify-content: center;
+                gap: 40px;
+                margin-top: 40px;
+                flex-wrap: wrap;
+            }
+
+            .tech-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .tech-item .icon {
+                width: 70px;
+                height: 70px;
+                background: var(--gray);
+                border-radius: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 2rem;
+                border: 1px solid var(--gray-light);
+            }
+
+            .tech-item span {
+                font-size: 0.9rem;
+                color: var(--text-muted);
+            }
+
+            /* CTA Section */
+            .cta {
+                padding: 100px 20px;
+                text-align: center;
+            }
+
+            .cta-box {
+                max-width: 700px;
+                margin: 0 auto;
+                background: linear-gradient(
+                    135deg,
+                    rgba(255, 68, 68, 0.1) 0%,
+                    rgba(255, 68, 68, 0.05) 100%
+                );
+                border: 1px solid rgba(255, 68, 68, 0.2);
+                border-radius: 24px;
+                padding: 60px 40px;
+            }
+
+            .cta h2 {
+                font-family: "Orbitron", sans-serif;
+                font-size: 2rem;
+                margin-bottom: 15px;
+            }
+
+            .cta p {
+                color: var(--text-muted);
+                margin-bottom: 30px;
+            }
+
+            /* Footer */
+            footer {
+                padding: 40px 20px;
+                border-top: 1px solid var(--gray-light);
+                text-align: center;
+                position: relative;
+                background: var(--dark);
+                z-index: 1;
+            }
+
+            .footer-content {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+
+            .footer-links {
+                display: flex;
+                gap: 25px;
+            }
+
+            .footer-links a {
+                color: var(--text-muted);
+                text-decoration: none;
+                font-size: 0.9rem;
+                transition: color 0.2s;
+            }
+
+            .footer-links a:hover {
+                color: var(--text);
+            }
+
+            .footer-copy {
+                color: var(--text-muted);
+                font-size: 0.85rem;
+            }
+
+            /* Responsive */
+            @media (max-width: 768px) {
+                nav {
+                    padding: 15px 20px;
+                }
+
+                .nav-links {
+                    display: none;
+                }
+
+                .hero {
+                    padding: 100px 20px 60px;
+                }
+
+                .hero h1 {
+                    font-size: 2.5rem;
+                }
+
+                .hero p {
+                    font-size: 1rem;
+                }
+
+                .hero-buttons {
+                    flex-direction: column;
+                    width: 100%;
+                    max-width: 300px;
+                }
+
+                .btn {
+                    justify-content: center;
+                }
+
+                .features {
+                    padding: 60px 20px;
+                }
+
+                .section-header h2 {
+                    font-size: 1.8rem;
+                }
+
+                .footer-content {
+                    flex-direction: column;
+                    text-align: center;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Navigation -->
+        <header>
+            <nav role="navigation" aria-label="Navigation principale">
+                <a href="#" class="nav-logo" aria-label="RedDeck - Accueil">
+                    <span class="icon" aria-hidden="true">💿</span>
+                    <span class="text"><span>Red</span>Deck</span>
+                </a>
+                <div class="nav-links">
+                    <a href="#features">Fonctionnalites</a>
+                    <a href="#tech">Technologie</a>
+                    <a
+                        href="https://github.com/buse974/reddeck"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >GitHub</a
+                    >
+                    <a href="app/" class="btn btn-primary">Lancer l'App</a>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Hero Section -->
+            <section class="hero" aria-labelledby="hero-title">
+                <div class="hero-badge">
+                    <span aria-hidden="true">🎉</span> 100% Gratuit & Open
+                    Source
+                </div>
+                <h1 id="hero-title">
+                    Le DJ Mixer<br /><span>nouvelle generation</span>
+                </h1>
+                <p>
+                    Mixez vos playlists YouTube comme un pro. Deux platines
+                    virtuelles, crossfader, auto-mix et suggestions
+                    intelligentes. Directement dans votre navigateur.
+                </p>
+                <div class="hero-buttons">
+                    <a
+                        href="app/"
+                        class="btn btn-primary"
+                        aria-label="Commencer a mixer avec RedDeck"
+                    >
+                        <span aria-hidden="true">🎧</span> Commencer a mixer
+                    </a>
+                    <a
+                        href="https://github.com/buse974/reddeck"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-secondary"
+                        aria-label="Voir le code source sur GitHub"
+                    >
+                        <span aria-hidden="true">⭐</span> Voir sur GitHub
+                    </a>
+                </div>
+                <div class="hero-image">
+                    <img
+                        src="screenshot.png"
+                        alt="Capture d'ecran de l'interface RedDeck DJ Mixer avec deux platines virtuelles"
+                        loading="lazy"
+                    />
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section
+                class="features"
+                id="features"
+                aria-labelledby="features-title"
+            >
+                <div class="section-header">
+                    <h2 id="features-title">
+                        Tout ce qu'il vous faut pour mixer
+                    </h2>
+                    <p>
+                        Des fonctionnalites professionnelles, accessibles a tous
+                    </p>
+                </div>
+                <div class="features-grid">
+                    <article class="feature-card">
+                        <div class="feature-icon" aria-hidden="true">🎛️</div>
+                        <h3>Double Platines</h3>
+                        <p>
+                            Deux decks virtuels avec vinyles animes, VU-metres
+                            et controles complets pour un mix fluide.
+                        </p>
+                    </article>
+                    <article class="feature-card">
+                        <div class="feature-icon" aria-hidden="true">🔀</div>
+                        <h3>Crossfader Intelligent</h3>
+                        <p>
+                            Transition manuelle ou automatique entre vos pistes.
+                            Configurez la duree du crossfade selon vos envies.
+                        </p>
+                    </article>
+                    <article class="feature-card">
+                        <div class="feature-icon" aria-hidden="true">🤖</div>
+                        <h3>Auto-Mix</h3>
+                        <p>
+                            Activez le mode automatique et laissez RedDeck
+                            enchainer vos morceaux avec des transitions
+                            parfaites.
+                        </p>
+                    </article>
+                    <article class="feature-card">
+                        <div class="feature-icon" aria-hidden="true">✨</div>
+                        <h3>Suggestions IA</h3>
+                        <p>
+                            Basees sur Last.fm, recevez des suggestions de
+                            titres similaires pour enrichir votre playlist.
+                        </p>
+                    </article>
+                    <article class="feature-card">
+                        <div class="feature-icon" aria-hidden="true">📺</div>
+                        <h3>Mode TV</h3>
+                        <p>
+                            Diffusez le mix sur un second ecran pour vos
+                            soirees. La video sur la TV, les controles sur votre
+                            PC.
+                        </p>
+                    </article>
+                    <article class="feature-card">
+                        <div class="feature-icon" aria-hidden="true">📱</div>
+                        <h3>100% Web</h3>
+                        <p>
+                            Pas d'installation requise. Fonctionne sur Chrome,
+                            Firefox, Edge. Sur desktop comme sur tablette.
+                        </p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Tech Section -->
+            <section class="tech" id="tech" aria-labelledby="tech-title">
+                <div class="tech-content">
+                    <div class="section-header">
+                        <h2 id="tech-title">Simple & Transparent</h2>
+                        <p>
+                            Developpe avec passion, assiste par IA Claude. Code
+                            source ouvert a tous.
+                        </p>
+                    </div>
+                    <div class="tech-stack" role="list">
+                        <div class="tech-item" role="listitem">
+                            <div class="icon" aria-hidden="true">📄</div>
+                            <span>HTML5</span>
+                        </div>
+                        <div class="tech-item" role="listitem">
+                            <div class="icon" aria-hidden="true">🎨</div>
+                            <span>CSS3</span>
+                        </div>
+                        <div class="tech-item" role="listitem">
+                            <div class="icon" aria-hidden="true">⚡</div>
+                            <span>JavaScript</span>
+                        </div>
+                        <div class="tech-item" role="listitem">
+                            <div class="icon" aria-hidden="true">▶️</div>
+                            <span>YouTube API</span>
+                        </div>
+                        <div class="tech-item" role="listitem">
+                            <div class="icon" aria-hidden="true">🎵</div>
+                            <span>Last.fm API</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="cta" aria-labelledby="cta-title">
+                <div class="cta-box">
+                    <h2 id="cta-title">Pret a mixer ?</h2>
+                    <p>
+                        Rejoignez des milliers d'utilisateurs qui mixent deja
+                        avec RedDeck. C'est gratuit, pour toujours.
+                    </p>
+                    <a
+                        href="app/"
+                        class="btn btn-primary"
+                        aria-label="Lancer l'application RedDeck"
+                    >
+                        <span aria-hidden="true">🚀</span> Lancer RedDeck
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer role="contentinfo">
+            <div class="footer-content">
+                <nav class="footer-links" aria-label="Liens du pied de page">
+                    <a href="app/">Application</a>
+                    <a
+                        href="https://github.com/buse974/reddeck"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >GitHub</a
+                    >
+                    <a
+                        href="https://github.com/buse974/reddeck/issues"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >Signaler un bug</a
+                    >
+                </nav>
+                <div class="footer-copy">
+                    <span aria-hidden="true">💿</span> RedDeck — Fait avec
+                    <span aria-label="amour">❤️</span> et Claude AI — Open
+                    Source
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

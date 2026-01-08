@@ -44,8 +44,9 @@ async function build() {
     deleteFolderRecursive(DIST_DIR);
   }
   fs.mkdirSync(DIST_DIR);
-  fs.mkdirSync(path.join(DIST_DIR, "js"));
-  fs.mkdirSync(path.join(DIST_DIR, "css"));
+  fs.mkdirSync(path.join(DIST_DIR, "app"));
+  fs.mkdirSync(path.join(DIST_DIR, "app", "js"));
+  fs.mkdirSync(path.join(DIST_DIR, "app", "css"));
 
   // Minifier les JS principaux en un seul fichier
   console.log("Minification JS...");
@@ -63,7 +64,10 @@ async function build() {
     mangle: true,
     output: { comments: false },
   });
-  fs.writeFileSync(path.join(DIST_DIR, "js", "app.min.js"), minifiedMain.code);
+  fs.writeFileSync(
+    path.join(DIST_DIR, "app", "js", "app.min.js"),
+    minifiedMain.code,
+  );
   console.log(
     "  -> js/app.min.js (" +
       Math.round(minifiedMain.code.length / 1024) +
@@ -82,7 +86,10 @@ async function build() {
         output: { comments: false },
       });
       const outName = file.replace(".js", ".min.js");
-      fs.writeFileSync(path.join(DIST_DIR, "js", outName), minified.code);
+      fs.writeFileSync(
+        path.join(DIST_DIR, "app", "js", outName),
+        minified.code,
+      );
       console.log(
         "  + " +
           file +
@@ -109,7 +116,7 @@ async function build() {
       .replace(/;}/g, "}") // Remove last semicolon
       .trim();
     const outName = file.replace(".css", ".min.css");
-    fs.writeFileSync(path.join(DIST_DIR, "css", outName), minified);
+    fs.writeFileSync(path.join(DIST_DIR, "app", "css", outName), minified);
     console.log(
       "  + " +
         file +
@@ -140,8 +147,8 @@ async function build() {
     "css/style.min.css?v=" + VERSION,
   );
 
-  fs.writeFileSync(path.join(DIST_DIR, "index.html"), appHtml);
-  console.log("  + index.html\n");
+  fs.writeFileSync(path.join(DIST_DIR, "app", "index.html"), appHtml);
+  console.log("  + app/index.html\n");
 
   // Générer tv.html pour le build
   let tvHtml = fs.readFileSync(path.join(SRC_DIR, "tv.html"), "utf8");
@@ -153,8 +160,22 @@ async function build() {
     /js\/tv-page\.js\?v=[\d.]+/,
     "js/tv-page.min.js?v=" + VERSION,
   );
-  fs.writeFileSync(path.join(DIST_DIR, "tv.html"), tvHtml);
-  console.log("  + tv.html\n");
+  fs.writeFileSync(path.join(DIST_DIR, "app", "tv.html"), tvHtml);
+  console.log("  + app/tv.html\n");
+
+  // Copier la landing page à la racine
+  console.log("Copie landing page...");
+  const landingDir = "landing";
+  if (fs.existsSync(landingDir)) {
+    const landingFiles = fs.readdirSync(landingDir);
+    for (const file of landingFiles) {
+      const src = path.join(landingDir, file);
+      const dest = path.join(DIST_DIR, file);
+      fs.copyFileSync(src, dest);
+      console.log("  + " + file);
+    }
+  }
+  console.log("");
 
   // Stats finales
   console.log("Build terminé !");

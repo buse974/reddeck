@@ -5,7 +5,6 @@ CLAUDE.md
 deploy.js
 deploy-dev.js
 dist/
-landing/
 assets/
 .env
 .env.local
