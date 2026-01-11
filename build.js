@@ -16,7 +16,6 @@ const CSS_DIR = path.join(SRC_DIR, "css");
 
 // Ordre des fichiers JS (important pour les dépendances)
 const JS_FILES = [
-  "env-loader.js",
   "config.js",
   "state.js",
   "storage.js",
@@ -50,7 +49,21 @@ async function build() {
 
   // Minifier les JS principaux en un seul fichier
   console.log("Minification JS...");
-  let combinedJs = "";
+
+  // Injecter la clé API Last.fm depuis les variables d'environnement
+  const lastfmApiKey = process.env.LASTFM_API_KEY;
+  let envJs = "";
+  if (lastfmApiKey) {
+    envJs = `window.ENV = { LASTFM_API_KEY: "${lastfmApiKey}" };`;
+    console.log("  + Injected LASTFM_API_KEY from environment.");
+  } else {
+    console.warn(
+      "  /!\\ WARN: LASTFM_API_KEY not found in environment. Suggestions will not work.",
+    );
+    envJs = `window.ENV = {};`;
+  }
+
+  let combinedJs = envJs + "\n";
   for (const file of JS_FILES) {
     const filePath = path.join(JS_DIR, file);
     if (fs.existsSync(filePath)) {
