@@ -1,0 +1,29 @@
+{
+  "name": "reddec",
+  "description": "Le DJ Mixer nouvelle génération. Mixez vos playlists YouTube comme un pro. Deux platines virtuelles, crossfader, auto-mix et suggestions intelligentes. Directement dans votre navigateur.",
+  "pitch": "DJ Mixer nouvelle génération avec deux platines virtuelles pour mixer des playlists YouTube",
+  "type": "landing",
+  "version": "3.42.0",
+  "domain": "reddeck.fr",
+  "use_nip_io": false,
+  "domains": {
+    "app": "reddeck.fr"
+  },
+  "stack": ["JavaScript", "YouTube API", "HTML/CSS/JS", "Docker", "Traefik"],
+  "repos": [
+    {
+      "name": "RedDec",
+      "type": "web",
+      "stack": "JavaScript + YouTube API",
+      "url": "https://reddeck.fr",
+      "healthUrl": "https://reddeck.fr/health.json",
+      "github": "https://github.com/buse974/reddeck",
+      "umamiId": "7a2a3941-1841-4c56-9e00-2213f2c3062b"
+    }
+  ],
+  "env": ["LASTFM_API_KEY", "NODE_ENV"],
+  "github_org": "buse974",
+  "github_repo": "buse974/reddeck",
+  "contextflow_id": "60057786-cb17-432e-a083-7d2532ef1e84",
+  "created_at": "2026-02-10T00:00:00Z"
+}

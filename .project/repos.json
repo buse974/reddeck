@@ -1,0 +1,8 @@
+{
+  "app": {
+    "name": "reddeck",
+    "path": ".",
+    "type": "static",
+    "git": "git@github.com:buse974/reddeck.git"
+  }
+}

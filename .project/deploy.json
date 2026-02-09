@@ -1,0 +1,16 @@
+{
+  "vps": {
+    "ip": "51.77.223.61",
+    "user": "fedora",
+    "ssh_alias": "alt",
+    "infra_path": "~/infra/"
+  },
+  "docker": {
+    "network": "traefik-public",
+    "registry": "ghcr.io/buse974"
+  },
+  "database": {
+    "local": null,
+    "production": null
+  }
+}
